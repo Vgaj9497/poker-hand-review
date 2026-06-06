@@ -21,7 +21,7 @@ from .evaluate.postflop import (
     get_backend,
 )
 from .evaluate.quality import QualityThresholds, tier_from_ev_loss
-from .models import Action, ActionType, DecisionEval, GtoSuggestion, Street, parse_card
+from .models import Action, ActionType, Card, DecisionEval, Street, parse_card
 from .parser import parse_hands, split_hands
 from .profile.opponent import build_profiles
 from .report.json_export import SCHEMA_VERSION, _jsonable
@@ -183,7 +183,8 @@ def analyze_payload(payload: dict[str, Any], config_obj: WebServerConfig) -> dic
         "opponents": profiles.by_player,
         "leaks": aggregate_leaks(hand_evals),
     }
-    return _jsonable(report)  # type: ignore[no-any-return]
+    result: dict[str, Any] = _jsonable(report)
+    return result
 
 
 def _analyze_backend(
@@ -294,7 +295,7 @@ def _find_hand_eval(report: dict[str, Any], hand_id: str) -> dict[str, Any] | No
 
 
 def _refresh_solver_stats(report: dict[str, Any]) -> dict[str, Any]:
-    stats = report.setdefault("stats", {})
+    stats: dict[str, Any] = report.setdefault("stats", {})
     decisions = [
         decision
         for hand_eval in report.get("hand_evals", [])
@@ -323,7 +324,7 @@ def _worst_tier(decisions: list[Any]) -> str:
     tiers = [decision.get("tier", "unknown") for decision in decisions if isinstance(decision, dict)]
     if not tiers:
         return "unknown"
-    return max(tiers, key=lambda tier: severity.get(tier, severity["unknown"]))
+    return str(max(tiers, key=lambda tier: severity.get(tier, severity["unknown"])))
 
 
 def _solver_delta(previous: dict[str, Any] | None, current: dict[str, Any]) -> dict[str, Any]:
@@ -422,7 +423,7 @@ def _action(raw: Any) -> Action:
     )
 
 
-def _cards(raw: Any, expected: int | None = None) -> tuple:
+def _cards(raw: Any, expected: int | None = None) -> tuple[Card, ...]:
     if not isinstance(raw, list):
         raise ValueError("cards must be a list")
     cards = tuple(parse_card(_card_text(card)) for card in raw)

@@ -10,9 +10,10 @@ import typer
 from . import config
 from .analysis.leaks import aggregate_leaks
 from .analysis.stats import compute_stats
-from .enrich import build_context
+from .enrich import HeroContext, build_context
 from .evaluate import DecisionEvaluator
 from .evaluate.postflop import PostflopBackend, SolverBackendError, get_backend
+from .models import Hand, HandEval
 from .parser import parse_hands, read_file
 from .report import cli_report
 from .report.json_export import export
@@ -22,7 +23,7 @@ from .web_server import serve_web
 app = typer.Typer(add_completion=False, help="n8 手牌歷史 GTO 檢討工具")
 
 
-def _load(paths: list[Path], hero: str) -> list:
+def _load(paths: list[Path], hero: str) -> list[Hand]:
     """讀入檔案或資料夾中所有 .txt，解析成 Hand 清單。"""
     files: list[Path] = []
     for p in paths:
@@ -187,18 +188,18 @@ def _postflop_backend(postflop: str, solver_path: Optional[Path]) -> PostflopBac
 
 def _evaluate_all(
     evaluator: DecisionEvaluator,
-    hands: list,
-    contexts: list,
-) -> list:
+    hands: list[Hand],
+    contexts: list[HeroContext],
+) -> list[HandEval]:
     try:
         return [evaluator.evaluate_hand(hand, ctx) for hand, ctx in zip(hands, contexts)]
     except SolverBackendError as exc:
         raise typer.BadParameter(str(exc)) from exc
 
 
-def _evaluate_one(evaluator: DecisionEvaluator, hand: object, ctx: object) -> object:
+def _evaluate_one(evaluator: DecisionEvaluator, hand: Hand, ctx: HeroContext) -> HandEval:
     try:
-        return evaluator.evaluate_hand(hand, ctx)  # type: ignore[arg-type]
+        return evaluator.evaluate_hand(hand, ctx)
     except SolverBackendError as exc:
         raise typer.BadParameter(str(exc)) from exc
 

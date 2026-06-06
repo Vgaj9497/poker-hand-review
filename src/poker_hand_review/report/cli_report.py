@@ -6,6 +6,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
+from ..analysis.leaks import Leak
+from ..analysis.stats import StatsReport
 from ..models import TIER_COLOR, Hand, HandEval, QualityTier
 
 console = Console()
@@ -50,7 +52,7 @@ def print_legend() -> None:
     )
 
 
-def print_stats(report: object) -> None:
+def print_stats(report: StatsReport) -> None:
     """印 StatsReport（GTO 準確率 / EV 損失 / 傳統指標）。"""
     table = Table(title="統計報表")
     table.add_column("指標")
@@ -78,7 +80,7 @@ def print_stats(report: object) -> None:
         console.print(pos)
 
 
-def print_leaks(leaks: list[object]) -> None:
+def print_leaks(leaks: list[Leak]) -> None:
     """依累計 EV 損失列出漏洞 Top-N。"""
     if not leaks:
         console.print("沒有累積的黃/紅漏洞。")

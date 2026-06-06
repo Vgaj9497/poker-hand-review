@@ -16,7 +16,7 @@ from typing import Any
 SCHEMA_VERSION = "0.1"
 
 
-def export(payload: dict, path: str) -> None:
+def export(payload: dict[str, Any], path: str) -> None:
     """把分析結果寫成 JSON。"""
     data = {"schema": SCHEMA_VERSION, **payload}
     Path(path).write_text(
@@ -30,7 +30,7 @@ def _jsonable(value: Any) -> Any:
         return value.value
     if isinstance(value, datetime):
         return value.isoformat()
-    if is_dataclass(value):
+    if is_dataclass(value) and not isinstance(value, type):
         return _jsonable(asdict(value))
     if isinstance(value, dict):
         return {str(k): _jsonable(v) for k, v in value.items()}

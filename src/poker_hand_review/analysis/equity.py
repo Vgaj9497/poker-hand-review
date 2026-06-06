@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from itertools import combinations
 from dataclasses import dataclass
+from typing import Any
 import random
 
 from ..models import Card
@@ -51,7 +52,7 @@ def equity_vs_hand(
 
 def equity_vs_range(
     hero: tuple[Card, ...],
-    villain_range: list[tuple[Card, ...]],
+    villain_range: Sequence[tuple[Card, ...]],
     board: tuple[Card, ...],
     samples: int = 20_000,
 ) -> EquityResult:
@@ -127,11 +128,11 @@ def _compare(hero: tuple[Card, ...], villain: tuple[Card, ...], board: tuple[Car
     return -1
 
 
-def _to_treys(cards: tuple[Card, ...], treys_card: object) -> list[int]:
-    return [treys_card.new(str(card)) for card in cards]  # type: ignore[attr-defined]
+def _to_treys(cards: tuple[Card, ...], treys_card: Any) -> list[int]:
+    return [treys_card.new(str(card)) for card in cards]
 
 
-def _treys() -> tuple[object, object] | None:
+def _treys() -> tuple[Any, Any] | None:
     try:
         from treys import Card as TreysCard
         from treys import Evaluator
