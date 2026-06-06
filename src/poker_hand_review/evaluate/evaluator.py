@@ -10,7 +10,16 @@ from collections.abc import Mapping
 
 from ..enrich import Decision, HeroContext, assign_positions
 from ..gto.preflop_charts import ChartKey, lookup_with_detail, stack_bucket
-from ..models import ActionType, DecisionEval, GtoSuggestion, Hand, HandEval, QualityTier, Street
+from ..models import (
+    ActionType,
+    DecisionEval,
+    GtoSuggestion,
+    Hand,
+    HandEval,
+    Position,
+    QualityTier,
+    Street,
+)
 from .postflop import PostflopBackend, PostflopNode
 from .quality import QualityThresholds, hand_tier, tier_from_ev_loss
 
@@ -130,7 +139,7 @@ def _chart_action(decision: Decision) -> str:
     return "vs_rfi"
 
 
-def _villain_position(hand: Hand, decision: Decision):
+def _villain_position(hand: Hand, decision: Decision) -> Position | None:
     if decision.villain is None or decision.facing == "unopened":
         return None
     return assign_positions(hand).get(decision.villain)
