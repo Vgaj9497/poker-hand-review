@@ -131,7 +131,7 @@ class N8ReviewHandler(BaseHTTPRequestHandler):
 
 def solve_payload(payload: dict[str, Any], config: WebServerConfig) -> dict[str, Any]:
     if config.solver_path is None:
-        raise SolverBackendError("UI solver requires starting n8-review web with --solver-path")
+        raise SolverBackendError("UI solver requires starting poker-hand-review web with --solver-path")
 
     hand_id = str(payload.get("hand_id", ""))
     decision_index = _decision_index(payload.get("decision_index"))
