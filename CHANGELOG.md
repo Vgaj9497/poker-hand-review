@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - GitHub Actions CI for pytest, Ruff, and mypy on Python 3.11 and 3.12.
+- Structured postflop equity diagnostics (estimated equity, required equity, assumed range, sample counts) with severity estimates explicitly labeled as non-solver.
 
 ### Changed
 
 - Completed package metadata for source distributions, wheels, and project links.
+- Expanded SUMMARY parsing to recognize showdown, muck, fold, and collected variants while keeping unknown lines visible in `raw_unparsed`.
 
 ## 0.1.0 - 2026-06-06
 
